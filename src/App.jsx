@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import DataComp from "./components/DataComp";
+import ErrorComp from "./components/ErrorComp";
+import LoadingComp from "./components/LoadingComp";
+import { useJsonFetch } from "./useJsonFetch";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [url] = useState("http://localhost:7070");
+  const [data, loading, error] = useJsonFetch({
+    url,
+    opts: ["data", "loading", "error"],
+  });
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="demo-cmpnts">
+      <DataComp data={data}></DataComp>
+      <ErrorComp error={error}></ErrorComp>
+      <LoadingComp loading={loading}></LoadingComp>
+    </div>
+  );
 }
 
-export default App
+export default App;
